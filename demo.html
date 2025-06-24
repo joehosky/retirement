@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>外籍勞工退休金申請</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.3);
+            margin-top: 1.5rem;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1rem;
+            gap: 0.5rem;
+        }
+
+        .step-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .step-dot.active {
+            background: rgba(255, 255, 255, 0.9);
+            transform: scale(1.2);
+        }
+
+        .step-dot.completed {
+            background: #10b981;
+        }
+
+        .content {
+            padding: 2.5rem;
+        }
+
+        .step {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .step-title {
+            font-size: 1.5rem;
+            color: #1f2937;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .step-icon {
+            font-size: 1.5rem;
+        }
+
+        .requirements {
+            background: #f0fdf4;
+            border: 2px solid #bbf7d0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .requirements h3 {
+            color: #166534;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .requirement-list {
+            list-style: none;
+        }
+
+        .requirement-list li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+            color: #166534;
+            line-height: 1.5;
+        }
+
+        .requirement-list li::before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+        }
+
+        .warnings {
+            background: #fef2f2;
+            border: 2px solid #fecaca;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .warnings h3 {
+            color: #dc2626;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .warning-list {
+            list-style: none;
+        }
+
+        .warning-list li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+            color: #dc2626;
+            line-height: 1.5;
+        }
+
+        .warning-list li::before {
+            content: "⚠️";
+            position: absolute;
+            left: 0;
+        }
+
+        .upload-section {
+            background: #f8fafc;
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .upload-section:hover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .upload-section input[type="file"] {
+            display: none;
+        }
+
+        .upload-label {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: #64748b;
+        }
+
+        .upload-text {
+            color: #475569;
+            font-size: 1rem;
+        }
+
+        .file-info {
+            background: #ecfdf5;
+            border: 1px solid #d1fae5;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .file-info.show {
+            display: block;
+        }
+
+        .tips {
+            background: #fffbeb;
+            border: 1px solid #fed7aa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tips h4 {
+            color: #ea580c;
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+        }
+
+        .tips ul {
+            color: #ea580c;
+            padding-left: 1.2rem;
+        }
+
+        .tips li {
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .completion-screen {
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .completion-icon {
+            font-size: 4rem;
+            color: #10b981;
+            margin-bottom: 1rem;
+        }
+
+        .completion-title {
+            font-size: 1.8rem;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .completion-text {
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+
+            .header {
+                padding: 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .content {
+                padding: 1.5rem;
+            }
+
+            .step-title {
+                font-size: 1.3rem;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .upload-section {
+                padding: 1.5rem;
+            }
+
+            .upload-icon {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 5px;
+            }
+
+            .header {
+                padding: 1rem;
+            }
+
+            .content {
+                padding: 1rem;
+            }
+
+            .requirements, .warnings, .tips {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📘 外籍勞工退休金申請</h1>
+            <p>泰國籍勞工自台灣勞退金返還申請流程</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="step-indicator" id="stepIndicator">
+                <!-- Step dots will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Step 1: 資格確認 -->
+            <div class="step active" id="step1">
+                <div class="step-title">
+                    <span class="step-icon">📝</span>
+                    第一步：確認申請資格
+                </div>
+
+                <div class="requirements">
+                    <h3>✅ 可領取資格條件（必須全部符合）</h3>
+                    <ul class="requirement-list">
+                        <li>您已離開台灣，且護照上有清楚的「入境與出境」蓋章</li>
+                        <li>您曾經在台灣合法工作並擁有「居留證（ARC）」</li>
+                        <li>您在台灣工作期間，雇主有幫您參加勞退提撥（舊制或新制）</li>
+                        <li>您有一個「泰國本人帳戶（英文版）」可接收國際匯款</li>
+                        <li>您年滿 60 歲 或已達退休條件（依勞退制度）</li>
+                    </ul>
+                </div>
+
+                <div class="warnings">
+                    <h3>⚠️ 不符合資格的情況（以下任一則無法申請）</h3>
+                    <ul class="warning-list">
+                        <li>還在台灣工作，尚未離境</li>
+                        <li>沒有合法工作身分（非法打工或無居留證）</li>
+                        <li>工作期間雇主未有提撥退休金</li>
+                        <li>無泰國帳戶（無法匯款）</li>
+                        <li>尚未滿退休年齡或不符合提領條件</li>
+                    </ul>
+                </div>
+
+                <div class="tips">
+                    <h4>📌 溫馨提醒</h4>
+                    <ul>
+                        <li>若不確定是否有退休金提撥，可以先請原雇主查詢</li>
+                        <li>年齡未滿 60 歲者，也可依特定條件提前申請（例如重大傷病或終止契約滿一定年資）</li>
+                        <li>所有文件都需為本人真實資料，並需提供英文版戶籍與銀行帳戶資料</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 2: 護照上傳 -->
+            <div class="step" id="step2">
+                <div class="step-title">
+                    <span class="step-icon">📤</span>
+                    第二步：上傳護照影本
+                </div>
+
+                <div class="requirements">
+                    <h3>✅ 需要上傳的內容（兩頁皆需）</h3>
+                    <ul class="requirement-list">
+                        <li>護照資料頁</li>
+                        <li>出入境章頁</li>
+                    </ul>
+                </div>
+
+                <div class="upload-section">
+                    <label for="passport-upload" class="upload-label">
+                        <div class="upload-icon">📄</div>
+                        <div class="upload-text">
+                            <strong>點擊上傳護照影本</strong><br>
+                            支援 JPG、PNG、PDF 格式，檔案大小限制 10MB
+                        </div>
+                    </label>
+                    <input type="file" id="passport-upload" accept=".jpg,.jpeg,.png,.pdf" multiple>
+                    <div class="file-info" id="passport-info">
+                        <p>✅ 檔案上傳成功</p>
+                    </div>
+                </div>
+
+                <div class="warnings">
+                    <h3>❗ 錯誤示範（以下資料無法受理）</h3>
+                    <ul class="warning-list">
+                        <li>僅拍護照封面或無資料內容</li>
+                        <li>上傳與本人無關之護照</li>
+                        <li>圖片不完整、太暗、反光、模糊看不清楚</li>
+                        <li>未包含任何出入境章頁面</li>
+                        <li>上傳非護照文件（如台灣居留證、機票、個人自拍）</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 3: 居留證上傳 -->
+            <div class="step" id="step3">
+                <div class="step-title">
+                    <span class="step-icon">📤</span>
+                    第三步：上傳居留證影本（ARC）
+                </div>
+
+                <div class="requirements">
+                    <h3>✅ 需要上傳的內容</h3>
+                    <ul class="requirement-list">
+                        <li>ARC 正面（照片、國籍、效期清楚）</li>
+                    </ul>
+                </div>
+
+                <div class="upload-section">
+                    <label for="arc-upload" class="upload-label">
+                        <div class="upload-icon">🆔</div>
+                        <div class="upload-text">
+                            <strong>點擊上傳居留證影本</strong><br>
+                            支援 JPG、PNG、PDF 格式，檔案大小限制 10MB
+                        </div>
+                    </label>
+                    <input type="file" id="arc-upload" accept=".jpg,.jpeg,.png,.pdf">
+                    <div class="file-info" id="arc-info">
+                        <p>✅ 檔案上傳成功</p>
+                    </div>
+                </div>
+
+                <div class="warnings">
+                    <h3>❗ 錯誤示範</h3>
+                    <ul class="warning-list">
+                        <li>非居留證或資訊模糊、遮蔽、冒用</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 4: 泰國身分證上傳 -->
+            <div class="step" id="step4">
+                <div class="step-title">
+                    <span class="step-icon">📤</span>
+                    第四步：上傳泰國身分證影本
+                </div>
+
+                <div class="requirements">
+                    <h3>✅ 需要上傳的內容</h3>
+                    <ul class="requirement-list">
+                        <li>有效、清晰的泰國身分證正面影像</li>
+                    </ul>
+                </div>
+
+                <div class="upload-section">
+                    <label for="thai-id-upload" class="upload-label">
+                        <div class="upload-icon">🇹🇭</div>
+                        <div class="upload-text">
+                            <strong>點擊上傳泰國身分證影本</strong><br>
+                            支援 JPG、PNG、PDF 格式，檔案大小限制 10MB
+                        </div>
+                    </label>
+                    <input type="file" id="thai-id-upload" accept=".jpg,.jpeg,.png,.pdf">
+                    <div class="file-info" id="thai-id-info">
+                        <p>✅ 檔案上傳成功</p>
+                    </div>
+                </div>
+
+                <div class="warnings">
+                    <h3>❗ 錯誤示範</h3>
+                    <ul class="warning-list">
+                        <li>僅背面、非身份證、模糊或反光圖像</li>
+                    </ul>
+                </div>
+
+                <div class="tips">
+                    <h4>📌 上傳注意事項</h4>
+                    <ul>
+                        <li>此為必要資料</li>
+                        <li>建議使用自然光拍攝或掃描</li>
+                        <li>格式：JPG、PNG 或 PDF（10MB 以下）</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 5: 戶籍謄本上傳 -->
+            <div class="step" id="step5">
+                <div class="step-title">
+                    <span class="step-icon">📤</span>
+                    第五步：上傳戶籍謄本（英文版）
+                </div>
+
+                <div class="requirements">
+                    <h3>✅ 需要上傳的內容</h3>
+                    <ul class="requirement-list">
+                        <li>官方申請之英文戶籍謄本影像（姓名拼音需與護照一致）</li>
+                    </ul>
+                </div>
+
+                <div class="upload-section">
+                    <label for="household-upload" class="upload-label">
+                        <div class="upload-icon">📋</div>
+                        <div class="upload-text">
+                            <strong>點擊上傳戶籍謄本（英文版）</strong><br>
+                            支援 JPG、PNG、PDF 格式，檔案大小限制 10MB
+                        </div>
+                    </label>
+                    <input type="file" id="household-upload" accept=".jpg,.jpeg,.png,.pdf">
+                    <div class="file-info" id="household-info">
+                        <p>✅ 檔案上傳成功</p>
+                    </div>
+                </div>
+
+                <div class="warnings">
+                    <h3>❗ 錯誤示範</h3>
+                    <ul class="warning-list">
+                        <li>非英文版、模糊、缺頁或不一致拼音</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 6: 銀行帳戶證明上傳 -->
+            <div class="step" id="step6">
+                <div class="step-title">
+                    <span class="step-icon">📤</span>
+                    第六步：上傳銀行帳戶證明（英文版）
+                </div>
+
+                <div class="requirements">
+                    <h3>✅ 需要上傳的內容</h3>
+                    <ul class="requirement-list">
+                        <li>銀行出具之英文帳戶證明</li>
+                        <li>含帳號、姓名（拼音）、SWIFT Code、銀行地址等</li>
+                    </ul>
+                </div>
+
+                <div class="upload-section">
+                    <label for="bank-upload" class="upload-label">
+                        <div class="upload-icon">🏦</div>
+                        <div class="upload-text">
+                            <strong>點擊上傳銀行帳戶證明（英文版）</strong><br>
+                            支援 JPG、PNG、PDF 格式，檔案大小限制 10MB
+                        </div>
+                    </label>
+                    <input type="file" id="bank-upload" accept=".jpg,.jpeg,.png,.pdf">
+                    <div class="file-info" id="bank-info">
+                        <p>✅ 檔案上傳成功</p>
+                    </div>
+                </div>
+
+                <div class="warnings">
+                    <h3>❗ 錯誤示範</h3>
+                    <ul class="warning-list">
+                        <li>非英文版、ATM 卡、存摺截圖或與護照拼音不符</li>
+                    </ul>
+                </div>
+
+                <div class="tips">
+                    <h4>📌 上傳注意事項</h4>
+                    <ul>
+                        <li>為必要資料，請親自向銀行申請英文帳戶證明</li>
+                        <li>格式：PDF、JPG、PNG，檔案限制 10MB</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 7: 改名證明上傳 -->
+            <div class="step" id="step7">
+                <div class="step-title">
+                    <span class="step-icon">📤</span>
+                    第七步：上傳改名或改姓證明（英文版）
+                </div>
+
+                <div class="warnings">
+                    <h3>⚠️ 僅限曾經改名或拼音不一致者才需上傳此文件！</h3>
+                </div>
+
+                <div class="requirements">
+                    <h3>✅ 需要上傳的內容</h3>
+                    <ul class="requirement-list">
+                        <li>官方改名紀錄（英文版），顯示新舊姓名對應關係</li>
+                    </ul>
+                </div>
+
+                <div class="upload-section">
+                    <label for="name-change-upload" class="upload-label">
+                        <div class="upload-icon">📝</div>
+                        <div class="upload-text">
+                            <strong>點擊上傳改名證明（英文版）</strong><br>
+                            若無改名可跳過此步驟
+                        </div>
+                    </label>
+                    <input type="file" id="name-change-upload" accept=".jpg,.jpeg,.png,.pdf">
+                    <div class="file-info" id="name-change-info">
+                        <p>✅ 檔案上傳成功</p>
+                    </div>
+                </div>
+
+                <div class="warnings">
+                    <h3>❗ 錯誤示範</h3>
+                    <ul class="warning-list">
+                        <li>自行翻譯、無政府章戳、無舊名/新名對應資訊</li>
+                    </ul>
+                </div>
+
+                <div class="tips">
+                    <h4>📌 上傳注意事項</h4>
+                    <ul>
+                        <li>若您的護照/戶籍/銀行資料拼音完全一致，此步驟可跳過</li>
+                        <li>檔案大小請勿超過 10MB，建議格式 PDF、JPG、PNG</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 8: 完成 -->
+            <div class="step" id="step8">
+                <div class="completion-screen">
+                    <div class="completion-icon">🎉</div>
+                    <div class="completion-title">申請資料上傳完成！</div>
+                    <div class="completion-text">
+                        感謝您完成所有資料上傳。我們將在收到您的申請後進行審核，<br>
+                        並在 5-10 個工作天內透過電子郵件通知您審核結果。<br><br>
+                        如有任何疑問，請聯繫客服專線。
+                    </div>
+                    <button class="btn btn-primary" onclick="location.reload()">
+                        🔄 重新開始申請
+                    </button>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="navigation">
+                <button class="btn btn-secondary" id="prevBtn" onclick="previousStep()">
+                    ⬅️ 上一步
+                </button>
+                <button class="btn btn-primary" id="nextBtn" onclick="nextStep()">
+                    下一步 ➡️
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 8;
+        let uploadedFiles = {};
+
+        // Initialize the application
+        function init() {
+            updateStepIndicator();
+            updateProgressBar();
+            updateNavigation();
+            setupFileUploads();
+        }
+
+        // Update step indicator dots
+        function updateStepIndicator() {
+            const stepIndicator = document.getElementById('stepIndicator');
+            stepIndicator.innerHTML = '';
+            
+            for (let i = 1; i <= totalSteps; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'step-dot';
+                
+                if (i < currentStep) {
+                    dot.classList.add('completed');
+                } else if (i === currentStep) {
+                    dot.classList.add('active');
+                }
+                
+                stepIndicator.appendChild(dot);
+            }
+        }
+
+        // Update progress bar
+        function updateProgressBar() {
+            const progressFill = document.getElementById('progressFill');
+            const percentage = ((currentStep - 1) / (totalSteps - 1)) * 100;
+            progressFill.style.width = percentage + '%';
+        }
+
+        // Update navigation buttons
+        function updateNavigation() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.style.display = currentStep === 1 ? 'none' : 'block';
+            
+            if (currentStep === totalSteps) {
+                nextBtn.style.display = 'none';
+            } else {
+                nextBtn.style.display = 'block';
+                nextBtn.textContent = currentStep === totalSteps - 1 ? '完成申請 ✅' : '下一步 ➡️';
+            }
+        }
+
+        // Show specific step
+        function showStep(stepNumber) {
+            // Hide all steps
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // Show current step
+            document.getElementById(`step${stepNumber}`).classList.add('active');
+            
+            currentStep = stepNumber;
+            updateStepIndicator();
+            updateProgressBar();
+            updateNavigation();
+        }
+
+        // Go to next step
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                // Check if required files are uploaded for upload steps
+                if (currentStep >= 2 && currentStep <= 6) {
+                    const requiredUploads = {
+                        2: 'passport-upload',
+                        3: 'arc-upload',
+                        4: 'thai-id-upload',
+                        5: 'household-upload',
+                        6: 'bank-upload'
+                    };
+                    
+                    const uploadId = requiredUploads[currentStep];
+                    if (uploadId && !uploadedFiles[uploadId]) {
+                        alert('請先上傳必要文件才能繼續下一步。');
+                        return;
+                    }
+                }
+                
+                showStep(currentStep + 1);
+            }
+        }
+
+        // Go to previous step
+        function previousStep() {
+            if (currentStep > 1) {
+                showStep(currentStep - 1);
+            }
+        }
+
+        // Setup file upload handlers
+        function setupFileUploads() {
+            const uploads = [
+                'passport-upload',
+                'arc-upload', 
+                'thai-id-upload',
+                'household-upload',
+                'bank-upload',
+                'name-change-upload'
+            ];

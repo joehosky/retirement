@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>步驟5 - 上傳戶籍謄本 | 外籍勞工退休金申請</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>📘 外籍勞工退休金申請</h1>
+        <p>泰國籍勞工自台灣勞退金返還申請流程</p>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 57.1%"></div>
+        </div>
+        <div class="step-indicator">
+          <div class="step-dot completed"></div>
+          <div class="step-dot completed"></div>
+          <div class="step-dot completed"></div>
+          <div class="step-dot completed"></div>
+          <div class="step-dot active"></div>
+          <div class="step-dot"></div>
+          <div class="step-dot"></div>
+          <div class="step-dot"></div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="step-title">
+          <span class="step-icon">📤</span>
+          第五步：上傳戶籍謄本（英文版）
+        </div>
+
+        <div class="requirements">
+          <h3>✅ 需要上傳的內容</h3>
+          <ul class="requirement-list">
+            <li>官方申請之英文戶籍謄本影像（姓名拼音需與護照一致）</li>
+          </ul>
+        </div>
+
+        <div class="upload-section">
+          <label for="household-upload" class="upload-label">
+            <div class="upload-icon">📋</div>
+            <div class="upload-text">
+              <strong>點擊上傳戶籍謄本（英文版）</strong><br />
+              支援 JPG、PNG、PDF 格式，檔案大小限制 10MB
+            </div>
+          </label>
+          <input
+            type="file"
+            id="household-upload"
+            accept=".jpg,.jpeg,.png,.pdf"
+          />
+          <div class="file-info" id="household-info">
+            <p>✅ 檔案上傳成功</p>
+          </div>
+        </div>
+
+        <div class="warnings">
+          <h3>❗ 錯誤示範</h3>
+          <ul class="warning-list">
+            <li>非英文版、模糊、缺頁或不一致拼音</li>
+            <li>非官方文件或自行翻譯版本</li>
+            <li>姓名拼音與護照不符</li>
+          </ul>
+        </div>
+
+        <div class="tips">
+          <h4>📌 上傳注意事項</h4>
+          <ul>
+            <li>需提供正式英文版戶籍謄本，供外交認證與資料對應使用</li>
+            <li>上傳完整清晰頁面</li>
+            <li>格式為 PDF、JPG 或 PNG，檔案上限 10MB</li>
+          </ul>
+        </div>
+
+        <div class="navigation">
+          <a href="step4.html" class="btn btn-secondary"> ⬅️ 上一步 </a>
+          <a href="step6.html" class="btn btn-primary" id="nextBtn">
+            下一步 ➡️
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // 檔案上傳處理
+      document.getElementById('household-upload').addEventListener('change', function(e) {
+          const files = e.target.files;
+          const fileInfo = document.getElementById('household-info');
+          const nextBtn = document.getElementById('nextBtn');
+
+          if (files.length > 0) {
+              fileInfo.classList.add('show');
+              fileInfo.innerHTML = `<p>✅ 已選擇檔案: ${files[0].name}</p>`;
+              nextBtn.style.opacity = '1';
+              nextBtn.style.pointerEvents = 'auto';
+          } else {
+              fileInfo.classList.remove('show');
+              nextBtn.style.opacity = '0.5';
+              nextBtn.style.pointerEvents = 'none';
+          }
+      });
+
+      document.getElementById("nextBtn").style.opacity = "1";
+      document.getElementById("nextBtn").style.pointerEvents = "auto";
+
+      // 初始化時禁用下一步按鈕
+      <!-- document.getElementById('nextBtn').style.opacity = '0.5';
+      document.getElementById('nextBtn').style.pointerEvents = 'none'; -->
+    </script>
+  </body>
+</html>

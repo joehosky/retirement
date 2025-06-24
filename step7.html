@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>步驟7 - 上傳改名證明 | 外籍勞工退休金申請</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>📘 外籍勞工退休金申請</h1>
+        <p>泰國籍勞工自台灣勞退金返還申請流程</p>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 85.7%"></div>
+        </div>
+        <div class="step-indicator">
+          <div class="step-dot completed"></div>
+          <div class="step-dot completed"></div>
+          <div class="step-dot completed"></div>
+          <div class="step-dot completed"></div>
+          <div class="step-dot completed"></div>
+          <div class="step-dot completed"></div>
+          <div class="step-dot active"></div>
+          <div class="step-dot"></div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="step-title">
+          <span class="step-icon">📤</span>
+          第七步：上傳改名或改姓證明（英文版）
+        </div>
+
+        <div class="warnings">
+          <h3>⚠️ 僅限曾經改名或拼音不一致者才需上傳此文件！</h3>
+        </div>
+
+        <div class="skip-section">
+          <h4>📝 若您沒有改名</h4>
+          <p>如果您的護照、戶籍、銀行資料拼音完全一致，可以跳過此步驟。</p>
+          <a href="step8.html" class="btn btn-skip"> ⏭️ 跳過此步驟 </a>
+        </div>
+
+        <div class="requirements">
+          <h3>✅ 需要上傳的內容</h3>
+          <ul class="requirement-list">
+            <li>官方改名紀錄（英文版），顯示新舊姓名對應關係</li>
+          </ul>
+        </div>
+
+        <div class="upload-section">
+          <label for="name-change-upload" class="upload-label">
+            <div class="upload-icon">📝</div>
+            <div class="upload-text">
+              <strong>點擊上傳改名證明（英文版）</strong><br />
+              支援 JPG、PNG、PDF 格式，檔案大小限制 10MB
+            </div>
+          </label>
+          <input
+            type="file"
+            id="name-change-upload"
+            accept=".jpg,.jpeg,.png,.pdf"
+          />
+          <div class="file-info" id="name-change-info">
+            <p>✅ 檔案上傳成功</p>
+          </div>
+        </div>
+
+        <div class="warnings">
+          <h3>❗ 錯誤示範</h3>
+          <ul class="warning-list">
+            <li>自行翻譯、無政府章戳、無舊名/新名對應資訊</li>
+            <li>非官方文件或無法證明改名關係</li>
+          </ul>
+        </div>
+
+        <div class="tips">
+          <h4>📌 上傳注意事項</h4>
+          <ul>
+            <li>若您的護照/戶籍/銀行資料拼音完全一致，此步驟可跳過</li>
+            <li>檔案大小請勿超過 10MB，建議格式 PDF、JPG、PNG</li>
+            <li>必須包含新舊姓名對應關係的官方證明</li>
+          </ul>
+        </div>
+
+        <div class="navigation">
+          <a href="step6.html" class="btn btn-secondary"> ⬅️ 上一步 </a>
+          <a href="step8.html" class="btn btn-primary" id="nextBtn">
+            完成申請 ✅
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // 檔案上傳處理
+      document
+        .getElementById("name-change-upload")
+        .addEventListener("change", function (e) {
+          const files = e.target.files;
+          const fileInfo = document.getElementById("name-change-info");
+
+          if (files.length > 0) {
+            fileInfo.classList.add("show");
+            fileInfo.innerHTML = `<p>✅ 已選擇檔案: ${files[0].name}</p>`;
+          } else {
+            fileInfo.classList.remove("show");
+          }
+        });
+
+      // 此步驟為選擇性，所以下一步按鈕始終可用
+      document.getElementById("nextBtn").style.opacity = "1";
+      document.getElementById("nextBtn").style.pointerEvents = "auto";
+    </script>
+  </body>
+</html>

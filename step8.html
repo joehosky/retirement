@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>申請完成 | 外籍勞工退休金申請</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📘 外籍勞工退休金申請</h1>
+            <p>泰國籍勞工自台灣勞退金返還申請流程</p>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 100%;"></div>
+            </div>
+            <div class="step-indicator">
+                <div class="step-dot completed"></div>
+                <div class="step-dot completed"></div>
+                <div class="step-dot completed"></div>
+                <div class="step-dot completed"></div>
+                <div class="step-dot completed"></div>
+                <div class="step-dot completed"></div>
+                <div class="step-dot completed"></div>
+                <div class="step-dot completed"></div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="completion-screen">
+                <div class="completion-icon">🎉</div>
+                <div class="completion-title">申請資料上傳完成！</div>
+                <div class="completion-text">
+                    感謝您完成所有資料上傳。我們將在收到您的申請後進行審核，<br>
+                    並在 <strong>5-10 個工作天</strong> 內透過電子郵件通知您審核結果。<br><br>
+                    如有任何疑問，請聯繫客服專線。
+                </div>
+
+                <div class="requirements">
+                    <h3>📋 接下來的流程</h3>
+                    <ul class="requirement-list">
+                        <li>系統將自動儲存您的申請資料</li>
+                        <li>專員將在 2-3 個工作天內進行初步審核</li>
+                        <li>如需補件，我們會透過電子郵件通知</li>
+                        <li>審核通過後，退休金將匯入您指定的泰國帳戶</li>
+                        <li>完成匯款後會發送確認通知</li>
+                    </ul>
+                </div>
+
+                <div class="tips">
+                    <h4>📞 聯絡資訊</h4>
+                    <ul>
+                        <li>客服專線：+886-2-1234-5678</li>
+                        <li>服務時間：週一至週五 09:00-17:00</li>
+                        <li>電子郵件：service@labor-pension.gov.tw</li>
+                        <li>線上查詢：www.labor-pension.gov.tw</li>
+                    </ul>
+                </div>
+
+                <div class="navigation" style="justify-content: center; margin-top: 2rem;">
+                    <a href="step1.html" class="btn btn-primary">
+                        🔄 重新開始申請
+                    </a>
+                    <button class="btn btn-secondary" onclick="window.print()">
+                        🖨️ 列印確認頁
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 頁面載入時顯示完成動畫
+        document.addEventListener('DOMContentLoaded', function() {
+            // 可以在這裡添加完成動畫或發送統計資料
+            console.log('申請流程已完成');
+            
+            // 模擬產生申請編號
+            const applicationId = 'TW' + new Date().getFullYear() + Math.random().toString(36).substr(2, 6).toUpperCase();
+            
+            // 在頁面中顯示申請編號
+            const completionText = document.querySelector('.completion-text');
+            completionText.innerHTML += `<br><br><strong>您的申請編號：${applicationId}</strong><br>請保存此編號以供查詢使用。`;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>步驟2 - 上傳護照影本 | 外籍勞工退休金申請</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>📘 外籍勞工退休金申請</h1>
+        <p>泰國籍勞工自台灣勞退金返還申請流程</p>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 14.3%"></div>
+        </div>
+        <div class="step-indicator">
+          <div class="step-dot completed"></div>
+          <div class="step-dot active"></div>
+          <div class="step-dot"></div>
+          <div class="step-dot"></div>
+          <div class="step-dot"></div>
+          <div class="step-dot"></div>
+          <div class="step-dot"></div>
+          <div class="step-dot"></div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="step-title">
+          <span class="step-icon">📤</span>
+          第二步：上傳護照影本
+        </div>
+
+        <div class="requirements">
+          <h3>✅ 需要上傳的內容（兩頁皆需）</h3>
+          <ul class="requirement-list">
+            <li>護照資料頁</li>
+            <li>出入境章頁</li>
+          </ul>
+        </div>
+
+        <div class="upload-section">
+          <label for="passport-upload" class="upload-label">
+            <div class="upload-icon">📄</div>
+            <div class="upload-text">
+              <strong>點擊上傳護照影本</strong><br />
+              支援 JPG、PNG、PDF 格式，檔案大小限制 10MB
+            </div>
+          </label>
+          <input
+            type="file"
+            id="passport-upload"
+            accept=".jpg,.jpeg,.png,.pdf"
+            multiple
+          />
+          <div class="file-info" id="passport-info">
+            <p>✅ 檔案上傳成功</p>
+          </div>
+        </div>
+
+        <div class="warnings">
+          <h3>❗ 錯誤示範（以下資料無法受理）</h3>
+          <ul class="warning-list">
+            <li>僅拍護照封面或無資料內容</li>
+            <li>上傳與本人無關之護照</li>
+            <li>圖片不完整、太暗、反光、模糊看不清楚</li>
+            <li>未包含任何出入境章頁面</li>
+            <li>上傳非護照文件（如台灣居留證、機票、個人自拍）</li>
+          </ul>
+        </div>
+
+        <div class="tips">
+          <h4>📌 上傳注意事項</h4>
+          <ul>
+            <li>檔案格式：JPG、PNG 或 PDF</li>
+            <li>單張大小：10MB 以下</li>
+            <li>請上傳清晰版本的護照資料頁與出入境蓋章頁</li>
+          </ul>
+        </div>
+
+        <div class="navigation">
+          <a href="index.html" class="btn btn-secondary"> ⬅️ 上一步 </a>
+          <a href="step3.html" class="btn btn-primary" id="nextBtn">
+            下一步 ➡️
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // 檔案上傳處理
+      document.getElementById('passport-upload').addEventListener('change', function(e) {
+          const files = e.target.files;
+          const fileInfo = document.getElementById('passport-info');
+          const nextBtn = document.getElementById('nextBtn');
+
+          if (files.length > 0) {
+              fileInfo.classList.add('show');
+              fileInfo.innerHTML = `<p>✅ 已選擇 ${files.length} 個檔案</p>`;
+              nextBtn.style.opacity = '1';
+              nextBtn.style.pointerEvents = 'auto';
+          } else {
+              fileInfo.classList.remove('show');
+              nextBtn.style.opacity = '0.5';
+              nextBtn.style.pointerEvents = 'none';
+          }
+      });
+
+      document.getElementById("nextBtn").style.opacity = "1";
+      document.getElementById("nextBtn").style.pointerEvents = "auto";
+
+      // 初始化時禁用下一步按鈕
+      <!-- document.getElementById('nextBtn').style.opacity = '0.5';
+      document.getElementById('nextBtn').style.pointerEvents = 'none'; -->
+    </script>
+  </body>
+</html>
